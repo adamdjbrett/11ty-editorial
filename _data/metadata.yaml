@@ -4,7 +4,7 @@ image: "https://images.unsplash.com/photo-1761481755390-83999d790b95?ixlib=rb-4.
 language: "en"
 locale: en_US
 favicon: "https://getbootstrap.com/docs/5.3/assets/img/favicons/apple-touch-icon.png"
-url: "http://localhost:8080"
+url: "https://editorial.000000076.xyz"
 
 metasocial:
   - facebook: https://www.facebook.com/user
