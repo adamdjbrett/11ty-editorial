@@ -1,0 +1,23 @@
+<div class="col-md-10 mx-auto">
+  <h2>{{ author.name }}</h2>
+  <p>
+    Website: <a href="{{ author.url }}" target="_blank">{{ author.url }}</a><br/>
+    Twitter: <a href="https://twitter.com/{{ author.twitter | replace('@', '') }}" target="_blank">@{{ author.twitter | replace('@', '') }}</a>
+  </p>
+
+  <img src="{{ author.photo }}" style="float:left; max-height: 300px; padding-right: 10px" alt="Foto {{ author.name }}">
+  <p>
+    {{ author.bio }}
+  </p>
+
+  <br clear="left" />
+
+  <h2>Posts by {{ author.name }}</h2>
+
+  {% set posts = collections.all | getPostsByAuthor(author.key) %} 
+  <ul>
+  {% for post in posts %}
+    <li><a href="{{post.url}}">{{post.data.title}}</a></li>
+  {% endfor %}
+  </ul>
+</div>

@@ -1,10 +1,10 @@
 <div class="row p-3 desktop mt-3">
 <div class="col-md-6">
- <a class="navbar-brand" href="{{metadata.url}}">{{metadata.navbar.title}}</a>
+ <a class="navbar-brand text-secondary" href="{{metadata.url}}"><strong>{{metadata.navbar.title}}</strong></a>
 </div>
 <div class="col-md-6">
 <div class="nav justify-content-end mb-3">{% for nv in metadata.navbar.social %}
-<a class="nave me-3" href="{{nv.url}}" title="{{nv.title}}"><i class="{{nv.icon}}"></i></a>{% endfor %}
+<a class="nave me-3 clu" href="{{nv.url}}" title="{{nv.title}}"><i class="{{nv.icon}} clu"></i></a>{% endfor %}
 </div>
 </div>
 <div class="bgb-pinks"></div>
