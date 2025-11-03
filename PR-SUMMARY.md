@@ -216,7 +216,7 @@ layout: base.njk
     </div>
   {% endfor %}
 {% else %}
-  <p>Nothing Post by **{{ authorKey }}**.</p>
+  <p>No posts by **{{ authorKey }}**.</p>
 {% endif %}
 </div>
 </div>
@@ -262,7 +262,7 @@ social:
    url: mailto:jan@fordv8foundation.org
 button:
  - title: Send Jan Message
-   url: "jan@fordv8foundation.org"
+   url: mailto:jan@fordv8foundation.org
 ---
 This is my dream job after retiring as a home economics teacher...
 ```
