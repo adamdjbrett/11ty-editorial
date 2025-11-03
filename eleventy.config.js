@@ -10,10 +10,31 @@ import yaml from "js-yaml";
 import { execSync } from "child_process";
 import markdownIt from "markdown-it";
 import markdownItAnchor from "markdown-it-anchor";
+import markdownItFootnote from "markdown-it-footnote";
+import markdownItAttrs from 'markdown-it-attrs';
+import markdownItTableOfContents from "markdown-it-table-of-contents";
+import pluginTOC from 'eleventy-plugin-toc';
 import pluginFilters from "./_config/filters.js";
+import fs from "fs";
+import path from 'path'; 
+import { fileURLToPath } from 'url';
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function (eleventyConfig) {
+	try {
+ const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+ const authorsPath = path.join(__dirname, '_data', 'authors.json');
+ 
+ const authorsData = fs.readFileSync(authorsPath, 'utf8');
+ const authors = JSON.parse(authorsData); // <--- DEKLARASI PERTAMA 'authors'
+ 
+ eleventyConfig.addGlobalData("authors", authors); 
+ // ...
+} catch (e) {
+  // ...
+}
 	eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
 		if (data.draft && process.env.ELEVENTY_RUN_MODE === "build") {
 			return false;
@@ -54,7 +75,104 @@ export default async function (eleventyConfig) {
 		return md.render(content);
 	});
 
-	// creativitas code
+  let options = {
+    html: true,
+    breaks: true,
+    linkify: true,
+      permalink: true,
+    typographer: true,
+      permalinkClass: "direct-link",
+      permalinkSymbol: "#"
+  };
+  eleventyConfig.addFilter("byAuthor", (posts, authorKey) => {
+  if (!posts || !Array.isArray(posts)) {
+    return [];
+  }
+  
+  // Bersihkan kunci penulis yang sedang dicari
+  const targetKey = String(authorKey).trim();
+
+  return posts.filter(post => {
+    const postAuthorData = post.data.author;
+
+    if (!postAuthorData || typeof postAuthorData !== 'string') {
+      return false; 
+    }
+
+    // Pecah string penulis dan bersihkan setiap kuncinya
+    const authors = postAuthorData.split(',')
+      .map(a => a.trim());
+    
+    // Periksa apakah targetKey termasuk dalam daftar penulis postingan
+    return authors.includes(targetKey);
+  });
+});
+eleventyConfig.addFilter("getPostsByAuthor", (posts, authorKey) => {
+  if (!posts || !Array.isArray(posts)) {
+    return [];
+  }
+
+  // Langkah 1: Bersihkan (trim) kunci penulis yang sedang kita cari.
+  const targetKey = String(authorKey).trim();
+
+  return posts.filter(post => {
+    const postAuthorData = post.data.author;
+
+    if (!postAuthorData) {
+      return false;
+    }
+
+    // Pastikan postAuthorData adalah string sebelum di-split
+    if (typeof postAuthorData !== 'string') {
+        // Jika data bukan string (misalnya, null atau objek yang tidak terduga), lewati.
+        return false; 
+    }
+
+    // Langkah 2: Pecah string penulis dari front matter dan bersihkan setiap kuncinya.
+    const authors = postAuthorData.split(',')
+      .map(a => a.trim());
+    
+    // Langkah 3: Periksa apakah array penulis postingan (authors) 
+    // mengandung kunci yang sedang dicari (targetKey).
+    return authors.includes(targetKey);
+  });
+});
+
+eleventyConfig.addFilter("getAuthors", (authors, label) => {
+    let labels = label.split(','); 
+    return authors.filter(a => labels.includes(a.key));
+});
+eleventyConfig.addFilter("findAuthorByKey", (authors, authorKey) => {
+        if (!authorKey || !authors || !Array.isArray(authors)) return null;
+        const key = String(authorKey).trim().toLowerCase();
+        return authors.find(author => 
+            String(author.key || '').trim().toLowerCase() === key
+        );
+    });
+	
+   let markdownLib = markdownIt(options).use(markdownItAttrs).use(markdownItFootnote).use(markdownItTableOfContents);
+  eleventyConfig.setLibrary("md", markdownLib);
+	  eleventyConfig.amendLibrary("md", mdLib => {
+		mdLib.use(markdownItAnchor, {
+			permalink: markdownItAnchor.permalink.ariaHidden({
+				placement: "after",
+				class: "header-anchor",
+				symbol: "",
+				ariaHidden: false,
+			}),
+			level: [1,2,3,4],
+			slugify: eleventyConfig.getFilter("slugify")
+		});
+	});
+	  eleventyConfig.addPlugin(pluginTOC, {
+		tags: ['h2', 'h3', 'h4', 'h5'],
+		  id: 'toci', 
+		  class: 'list-group',
+		ul: true,
+		flat: true,
+		wrapper: 'div'
+	  });
+
 	eleventyConfig.on("eleventy.after", () => {
 		execSync(`npx pagefind --site _site --glob \"**/*.html\"`, {
 			encoding: "utf-8",
@@ -67,6 +185,7 @@ export default async function (eleventyConfig) {
 			return `print-${slug}`;
 		},
 	});
+
 	// creativitas code
 
 	eleventyConfig.addPlugin(feedPlugin, {
@@ -86,12 +205,12 @@ export default async function (eleventyConfig) {
 		metadata: {
 			language: "en",
 			title:
-				"Grandlimousine Car Limousine Party Buss Wedding Corporate Airport Transfer Service Provider",
+				"Editorial",
 			subtitle:
-				"Limousine Party Bus & Car Service - Arrive in Style, Every Time - Book our limousine services today for transportation to and from your destination in a luxurious sedan, limousine, SUV, or sprinter van.",
-			base: "https://www.grandlimousine.com/",
+				"Editorial 11ty.",
+			base: "https://www.example.com/",
 			author: {
-				name: "Grandlimousine",
+				name: "adamdjbrett",
 			},
 		},
 	});

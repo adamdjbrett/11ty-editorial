@@ -10,6 +10,7 @@ export default function(eleventyConfig) {
 		// dateObj input: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string
 		return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat('yyyy-LL-dd');
 	});
+	
 eleventyConfig.addNunjucksFilter("limit", (arr, limit) => arr.slice(0, limit));
 	// Get the first `n` elements of a collection.
 	eleventyConfig.addFilter("head", (array, n) => {
