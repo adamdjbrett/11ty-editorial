@@ -35,7 +35,7 @@ eleventyConfig.addNunjucksFilter("limit", (arr, limit) => arr.slice(0, limit));
 	});
 
 	eleventyConfig.addFilter("filterTagList", function filterTagList(tags) {
-		return (tags || []).filter(tag => ["all", "posts"].indexOf(tag) === -1);
+		return (tags || []).filter(tag => ["all", "posts", "authors"].indexOf(tag) === -1);
 	});
 
 	eleventyConfig.addFilter("sortAlphabetically", strings =>

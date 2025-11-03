@@ -13,6 +13,7 @@ metasocial:
 
 navbar: 
  title: Editorial 11ty
+ sub_title: 11ty version by adam dj brett
  social: 
    - title: Follow my Twitter
      icon: fab fa-twitter
