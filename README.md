@@ -304,12 +304,12 @@ description: "John Doe"
 date: 2025-04-07
 image: "https://images.unsplash.com/photo-..."
 social: 
- - title: Jan Facebook
+ - title: Jhon Facebook
    icon: fa-solid fa-envelope
-   url: mailto:jan@fordv8foundation.org
+   url: mailto:jhon@dhoe.org
 button:
  - title: Send Jan Message
-   url: "jan@fordv8foundation.org"
+   url: "jhon@dhoe.org"
 ---
 This is my dream job after retiring as a home economics teacher...
 ```
