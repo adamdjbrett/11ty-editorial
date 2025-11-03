@@ -1,10 +1,11 @@
 title: "Editorial 11ty"
+subtitle: "Responsive HTML5up Site"
 description: "Editorial from HTML5up convert to bootstrap and JAMSTACK 11ty aka eleventy version develop by Adam Dj Brett"
 image: "https://images.unsplash.com/photo-1761481755390-83999d790b95?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=400"
 language: "en"
 locale: en_US
 favicon: "https://getbootstrap.com/docs/5.3/assets/img/favicons/apple-touch-icon.png"
-url: "http://localhost:8080"
+url: "https://editorial.000000076.xyz"
 
 metasocial:
   - facebook: https://www.facebook.com/user
