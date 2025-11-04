@@ -24,7 +24,7 @@ jobs:
       - name: 4. Build Eleventy Project
         run: npm run build
 
-      - name: 5. Deploy via FTP/SFTP
+      - name: 5. Deploy via FTP/SFTP (Pasif)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -33,8 +33,11 @@ jobs:
           local-dir: './_site/'
           remote-dir: ${{ secrets.FTP_PATH }}
           
-          protocol: 'ftp' 
+          protocol: 'ftp'
           port: 21
-         
+          server-dir: ${{ secrets.FTP_PATH }}
+          state-name: '.ftp-deploy-sync-state.json'
+          ftp-client: 'jsftp'
+          
       - name: 6. Deployment Complete
-        run: echo "Deployment 11ty selesai!"
+        run: echo "Deployment 11ty Finish!!"
