@@ -1,4 +1,4 @@
-name: Eleventy Deploy Shared Hosting
+name: Eleventy Deploy Shared Hosting - FINAL ATTEMPT
 
 on:
   push:
@@ -24,17 +24,17 @@ jobs:
       - name: 4. Build Eleventy Project
         run: npm run build
 
-      - name: 5. Deploy via FTP/SFTP (Pasif)
+      - name: 5. Deploy via FTP/SFTP (Force Upload)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: './_site/'
-          server-dir: ${{ secrets.FTP_PATH }} 
+          server-dir: public_html/editorial/         
           protocol: 'ftp'
           port: 21
-          state-name: '.ftp-deploy-sync-state.json'
+          state-name: false 
 
       - name: 6. Deployment Complete
-        run: echo "Deployment 11ty selesai!"
+        run: echo "Deployment 11ty finish!"
