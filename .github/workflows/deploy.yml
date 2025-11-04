@@ -1,5 +1,4 @@
-# .github/workflows/deploy.yml
-name: Eleventy Deploy via FTP
+name: Eleventy Deploy Shared Hosting
 
 on:
   push:
@@ -25,7 +24,7 @@ jobs:
       - name: 4. Build Eleventy Project
         run: npm run build
 
-      - name: 5. Deploy via FTP
+      - name: 5. Deploy via FTP/SFTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -34,5 +33,8 @@ jobs:
           local-dir: './_site/'
           remote-dir: ${{ secrets.FTP_PATH }}
           
+          protocol: 'ftp' 
+          port: 21
+         
       - name: 6. Deployment Complete
         run: echo "Deployment 11ty selesai!"
