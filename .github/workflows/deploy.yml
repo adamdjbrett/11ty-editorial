@@ -24,8 +24,8 @@ jobs:
       - name: 4. Build Eleventy Project
         run: npm run build
 
-      - name: 5. Deploy via SFTP (Paling Aman)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+      - name: 5. Deploy via FTPS (Force jsftp Client)
+        uses: SamKirkland/FTP-Deploy-Action@v4.2.0 
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
@@ -33,7 +33,8 @@ jobs:
           local-dir: './_site/'
           server-dir: "/" 
           protocol: 'ftps' 
-          port: 21
+          port: 21 
+          ftp-client: 'jsftp' 
 
       - name: 6. Deployment Complete
         run: echo "Deployment 11ty finish!"
