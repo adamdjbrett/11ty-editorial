@@ -1,32 +1,29 @@
-name: Build and Deploy to cPanel
+# .github/workflows/deploy.yml
+name: Eleventy Deploy via FTP
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: 🔄 Checkout
-        uses: actions/checkout@v3
+      - name: 1. Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v3
+      - name: 2. Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          # Remove cache since package-lock.json might not be committed
+          node-version: '20'
 
-      - name: 📦 Install Dependencies
+      - name: 3. Install Dependencies
         run: npm install
 
-      - name: 🏗️ Build Site
+      - name: 4. Build Eleventy Project
         run: npm run build
-        env:
-          NODE_ENV: production
 
       - name: 📝 Create .htaccess
         run: |
