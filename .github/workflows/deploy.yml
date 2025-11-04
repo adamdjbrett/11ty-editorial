@@ -1,4 +1,4 @@
-name: Eleventy Deploy Shared Hosting - SFTP Tester
+name: Eleventy Deploy Shared Hosting
 
 on:
   push:
@@ -32,8 +32,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: './_site/'
           server-dir: "/" 
-          protocol: 'sftp'
-          port: 22
+          protocol: 'ftps' 
+          port: 21
 
       - name: 6. Deployment Complete
         run: echo "Deployment 11ty finish!"
