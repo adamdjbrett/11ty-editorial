@@ -35,4 +35,4 @@ jobs:
           remote-dir: ${{ secrets.FTP_PATH }}
           
       - name: 6. Deployment Complete
-        run: echo "Deployment 11ty selesai!"
+        run: echo "Deployment 11ty success!"
