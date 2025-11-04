@@ -1,5 +1,4 @@
-# .github/workflows/deploy.yml
-name: Eleventy Deploy via FTP
+name: Eleventy Deploy Shared Hosting
 
 on:
   push:
@@ -25,50 +24,17 @@ jobs:
       - name: 4. Build Eleventy Project
         run: npm run build
 
-      - name: 📝 Create .htaccess
-        run: |
-          cat > ./_site/.htaccess << 'EOF'
-          RewriteEngine On
-          RewriteBase /editorial/
-          
-          RewriteCond %{REQUEST_FILENAME} !-d
-          RewriteCond %{REQUEST_URI} (.+)/$
-          RewriteRule ^ %1 [R=301,L]
-          
-          RewriteCond %{REQUEST_FILENAME} -d
-          RewriteCond %{REQUEST_URI} !(.*)/$
-          RewriteRule ^(.*)$ $1/ [R=301,L]
-          
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          RewriteRule ^(.*)$ index.html [L]
-          
-          Options -Indexes
-          AddDefaultCharset UTF-8
-          
-          <IfModule mod_deflate.c>
-            AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript
-          </IfModule>
-          EOF
-
-      - name: 🚀 Deploy to cPanel via FTPS
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+      - name: 5. Deploy via FTPS (Force jsftp Client)
+        uses: SamKirkland/FTP-Deploy-Action@v4.2.0 
         with:
-          server: ${{ secrets.FTP_HOST }}
+          server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          local-dir: ./_site/
-          server-dir: ./public_html/editorial/
-          dangerous-clean-slate: true
-          security: loose
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/.DS_Store
-            **/package*.json
+          local-dir: './_site/'
+          server-dir: "/" 
+          protocol: 'ftps' 
+          port: 21 
+          ftp-client: 'jsftp' 
 
-      - name: ✅ Deployment Complete
-        run: echo "🎉 Site live at https://rs-db.fyi/editorial/"
+      - name: 6. Deployment Complete
+        run: echo "Deployment 11ty finish!"
