@@ -21,20 +21,7 @@ import { fileURLToPath } from 'url';
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function (eleventyConfig) {
-	try {
- const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
- const authorsPath = path.join(__dirname, '_data', 'authors.json');
- 
- const authorsData = fs.readFileSync(authorsPath, 'utf8');
- const authors = JSON.parse(authorsData); // <--- DEKLARASI PERTAMA 'authors'
- 
- eleventyConfig.addGlobalData("authors", authors); 
- // ...
-} catch (e) {
-  // ...
-}
+	// Removed manual authors.json loading. Eleventy will auto-load _data/authors.yaml and _data/authors.json as global data.
 	eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
 		if (data.draft && process.env.ELEVENTY_RUN_MODE === "build") {
 			return false;
